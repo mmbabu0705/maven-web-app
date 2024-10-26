@@ -24,28 +24,6 @@
         <artifactId>maven-war-plugin</artifactId>
         <version>3.3.1</version>
       </plugin>
-      <plugin>
-          <groupId>org.sonarsource.scanner.maven</groupId>
-          <artifactId>sonar-maven-plugin</artifactId>
-          <version>3.7.0.1746</version>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-  </build>
-  <profiles>
-        <profile>
-            <id>sonar</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <!-- Optional URL to server. Default value is http://localhost:9000 -->
-                <sonar.host.url>
-                  http://43.205.136.104:9000/
-                </sonar.host.url>
-            </properties>
-        </profile>
-     </profiles>
     </plugins>
   </build>
 </project>
