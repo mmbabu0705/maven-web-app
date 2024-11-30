@@ -26,4 +26,15 @@
       </plugin>
     </plugins>
   </build>
+  <distributionManagement>
+    <snapshotRepository>
+        <id>teksit-snapshot-repository</id>
+        <url>http://3.108.221.97:8081/repository/teksit-snapshot-repository</url>
+    </snapshotRepository>
+</distributionManagement>
+  <server>
+    <id>teksit-snapshot-repository</id>
+    <username>admin</username>
+    <password>admin123</password>
+</server>
 </project>
