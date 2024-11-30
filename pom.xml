@@ -26,4 +26,11 @@
       </plugin>
     </plugins>
   </build>
+  <servers>
+  <server>
+    <id>teksit-snapshot-repository</id>
+    <username>admin</username>
+    <password>admin123</password>
+  </server>
+</servers>
 </project>
