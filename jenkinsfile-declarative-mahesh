@@ -1,0 +1,47 @@
+pipeline {
+    agent any
+    
+    tools {
+        maven "Apache Maven-3.8.7"
+    }
+
+    stages {
+        stage('Clone the Repository') {
+            steps {
+                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/mmbabu0705/maven-web-app.git']])
+            }
+        }
+        stage('Compile the source code') {
+            steps {
+               sh 'mvn compile'
+            }
+        }
+        stage('Run the test code') {
+            steps {
+               sh 'mvn test -DskipTests=true'
+            }
+        }
+        stage('Sonarqube analysis') {
+            steps {
+                withSonarQubeEnv("sonar") {
+                sh 'mvn sonar:sonar'
+                }
+            }
+        }
+        stage('Package the source code') {
+            steps {
+               sh 'mvn package -DskipTests=true'
+            }
+        }
+        stage('Upload artifact to Nexus Repository') {
+            steps {
+               nexusArtifactUploader artifacts: [[artifactId: '01-maven-web-app', classifier: '', file: '/var/lib/jenkins/workspace/TEKSIT_CICD_PIPELINE/target/maven-web-app.war', type: 'war']], credentialsId: 'nexus_cred', groupId: 'in.teksit', nexusUrl: '43.205.231.9:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'teksit-snapshot-repository', version: '1.0-SNAPSHOT'
+            }
+        }
+        stage('Deploy to Tomcat server') {
+            steps {
+              deploy adapters: [tomcat9(credentialsId: 'tomcat_cred', path: '', url: 'http://3.111.30.231:8085/')], contextPath: null, war: '**/*.war'
+            }
+        }
+    }
+}
