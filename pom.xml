@@ -10,7 +10,7 @@
 
   <repositories>
     <repository>
-        <id>sonarsource</id>
+        <id>sonar-scanner</id>
         <url>https://repo.maven.apache.org/Apache Maven-3.8.7</url>
     </repository>
   </repositories>
