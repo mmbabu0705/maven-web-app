@@ -11,7 +11,7 @@
   <repositories>
     <repository>
         <id>sonarsource</id>
-        <url>https://repo.maven.apache.org/maven2</url>
+        <url>https://repo.maven.apache.org/Apache Maven-3.8.7</url>
     </repository>
   </repositories>
  
