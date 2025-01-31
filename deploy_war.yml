@@ -1,0 +1,10 @@
+---
+- name: Deploy WAR file to another directory
+  hosts: localhost  # Run on the same machine
+  become: yes       # Run with elevated privileges (if needed)
+  tasks:
+    - name: Copy WAR file from source to destination
+      copy:
+        src: /opt/maven-web-app/target/maven-web-app.war  # Source path of the WAR file
+        dest: /opt/tomcat/webapps/maven-web-app.war   # Destination path
+        remote_src: yes  # Since the source and destination are on the same machine
