@@ -2,29 +2,29 @@ pipeline {
     agent any
 
     stages {
-        stage('Clone the repository') {
+        stage('git Checkout-SCM') {
             steps {
-               git 'https://github.com/mmbabu0705/maven-web-app.git'
+               checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/mmbabu0705/maven-web-app.git']])
             }
         }
-        stage('compile the code') {
+        stage('Compile the code') {
             steps {
-              sh 'mvn compile'
+               sh 'mvn compile'
             }
         }
-        stage('test the code') {
+        stage('Test the code') {
             steps {
-              sh 'mvn test'
+               sh 'mvn test'
             }
         }
-        stage('Package the war file') {
+        stage('package the code') {
             steps {
-              sh 'mvn package'
+               sh 'mvn package'
             }
         }
-        stage('Deploy the war file into Tomcat-server') {
+        stage('Deploy the code into the tomcat-server') {
             steps {
-              deploy adapters: [tomcat9(credentialsId: 'tomcat_cred', path: '', url: 'http://3.110.176.90:8080/')], contextPath: null, war: '**/*.war'
+               deploy adapters: [tomcat9(credentialsId: 'tomcat_cred', path: '', url: 'http://15.206.195.251:9090/')], contextPath: null, war: '**/*.war'
             }
         }
     }
