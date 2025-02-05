@@ -1,0 +1,51 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Checkout SCM') {
+            steps {
+                git 'https://github.com/mmbabu0705/maven-web-app.git'
+            }
+        }
+        stage('Compile the code') {
+            steps {
+               sh "mvn compile"
+            }
+        }
+        stage('Test the code') {
+            steps {
+               sh "mvn test"
+            }
+        }
+        stage('OWASP Scan') {
+            steps {
+               dependencyCheck additionalArguments: ' --scan ./ ', odcInstallation: 'DC'
+                   dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+            }
+        }
+        stage('Sonarqube analysis') {
+            steps {
+                withSonarQubeEnv("sonar") {
+                sh 'mvn sonar:sonar'
+                }
+            }
+        }
+        stage('package the code') {
+            steps {
+               sh "mvn package"
+            }
+        }
+        stage('Upload artifact to Nexus Repository') {
+            steps {
+              nexusArtifactUploader artifacts: [[artifactId: '01-maven-web-app', classifier: '', file: '/var/lib/jenkins/workspace/CICD-PIPELINE-PROJECT/target/maven-web-app.war', type: 'war']], credentialsId: 'nexus_cred', groupId: 'in.teksit', nexusUrl: '65.1.65.163:8081/', nexusVersion: 'nexus3', protocol: 'http', repository: 'teksit-snapshot-repository', version: '1.0-SNAPSHOT'
+            }
+        }
+        stage('Deploy to Tomcat server') {
+            steps {
+              sshagent(['tomcat_server_agent']) {
+                    sh 'scp -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/CICD-PIPELINE-PROJECT/target/maven-web-app.war root@13.233.77.111:/opt/tomcat/webapps/'
+                }
+            }
+        }
+    }
+}
