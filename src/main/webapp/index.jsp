@@ -1,6 +1,6 @@
 <html>
 <body>
-<h1><font color='green'> Welcome to RR Software Training Institute - Software Training Institute <font></h1>
+<h1><font color='red'> Welcome to RR Software Training Institute <font></h1>
 
 <a href="https://teksacademy.com/">Click Here To See Job Portals</a>
   
