@@ -1,0 +1,44 @@
+name: Build and Deploy to Tomcat (Self-hosted)
+
+on:
+  push:
+    branches: [ "master" ]   # change to main if needed
+
+jobs:
+  build-and-deploy:
+    runs-on: self-hosted
+
+    steps:
+    # Step 1: Checkout
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # Step 2: Setup Java
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    # Step 3: Maven build
+    - name: Build with Maven
+      run: |
+        mvn clean compile
+        mvn test
+        mvn package
+
+    # Step 4: Deploy to Tomcat
+    - name: Deploy WAR to Tomcat
+      run: |
+        TOMCAT_HOME=/opt/tomcat
+        APP_NAME=maven-web-app.war
+
+        # Auto detect WAR in target
+        WAR_FILE=$(ls target/*.war | head -n 1)
+        echo "WAR detected: $WAR_FILE"
+
+        echo "Removing old deployment..."
+        sudo rm -f $TOMCAT_HOME/webapps/$APP_NAME
+        sudo rm -rf $TOMCAT_HOME/webapps/${APP_NAME%.war}
+
+        echo "Copying WAR to Tomcat webapps..
