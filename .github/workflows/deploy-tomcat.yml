@@ -30,15 +30,23 @@ jobs:
     # Step 4: Deploy to Tomcat
     - name: Deploy WAR to Tomcat
       run: |
+        set -e
+
         TOMCAT_HOME=/opt/tomcat
         APP_NAME=maven-web-app.war
 
-        # Auto detect WAR in target
+        # WAR file ni target nundi pick cheyyadam
         WAR_FILE=$(ls target/*.war | head -n 1)
         echo "WAR detected: $WAR_FILE"
 
         echo "Removing old deployment..."
-        sudo rm -f $TOMCAT_HOME/webapps/$APP_NAME
-        sudo rm -rf $TOMCAT_HOME/webapps/${APP_NAME%.war}
+        sudo rm -f "$TOMCAT_HOME/webapps/$APP_NAME"
+        sudo rm -rf "$TOMCAT_HOME/webapps/${APP_NAME%.war}"
 
-        echo "Copying WAR to Tomcat webapps..
+        echo "Copying new WAR..."
+        sudo cp "$WAR_FILE" "$TOMCAT_HOME/webapps/$APP_NAME"
+
+        echo "Restarting Tomcat..."
+        sudo systemctl restart tomcat || sudo systemctl restart tomcat9 || true
+
+        echo "Deployment Completed"
