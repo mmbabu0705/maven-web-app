@@ -1,8 +1,8 @@
 <html>
 <body>
-<h1><font color='red'> Welcome to TEKS ACADEMY Training Institute <font></h1>
+<h1><font color='red'> Welcome to RR-TECHNOSOFT TRAINING INSTITUTE <font></h1>
 
-<a href="https://teksacademy.com/">Click Here To See Job Portals</a>
+<a href="https://www.rrtechnosoft.in/">Click Here To See Courses</a>
   
   <h2><font color='green'> Call Us : +91-9490507503 / +91 - 8919058767 </h2>
   
