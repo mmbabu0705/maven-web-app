@@ -1,6 +1,6 @@
 <html>
 <body>
-<h1><font color='red'> Welcome to RR-TECHNOSOFT TRAINING INSTITUTE <font></h1>
+<h1><font color='green'> Welcome to RR-TECHNOSOFT TRAINING INSTITUTE <font></h1>
 
 <a href="https://www.rrtechnosoft.in/">Click Here To See Courses</a>
   
