@@ -1,5 +1,4 @@
-
-     pipeline {
+pipeline {
     agent any
 
     stages {
@@ -23,9 +22,9 @@
                 sh 'mvn package'
             }
         }
-        stage('Deploy code into tomcat server') {
+         stage('Deploy tomcat') {
             steps {
-                deploy adapters: [tomcat9(alternativeDeploymentContext: '', credentialsId: 'tomcat_cred', path: '', url: 'http://18.212.164.106:8080/')], contextPath: null, war: '**/*.war'
+                deploy adapters: [tomcat9(alternativeDeploymentContext: '', credentialsId: 'tomcat_cred', path: '', url: 'http://13.233.36.39:8080/')], contextPath: null, war: '**/*.war'
             }
         }
     }
