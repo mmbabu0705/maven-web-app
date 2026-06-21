@@ -1,0 +1,69 @@
+@Library('jk-shared-library') _
+
+pipeline {
+
+    agent any
+
+    tools {
+        maven "Apache Maven-3.8.7"
+    }
+
+    stages {
+
+        stage('Clone Repository') {
+            steps {
+                gitCheckout()
+            }
+        }
+
+        stage('Compile') {
+            steps {
+                compileCode()
+            }
+        }
+
+        stage('Test') {
+            steps {
+                runTests()
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                sonarAnalysis()
+            }
+        }
+
+        stage('Package') {
+            steps {
+                packageApp()
+            }
+        }
+
+        stage('Upload Nexus') {
+            steps {
+                uploadNexus()
+            }
+        }
+
+        stage('Deploy Tomcat') {
+            steps {
+                deployTomcat()
+            }
+        }
+    }
+
+    post {
+        success {
+            notify("SUCCESS")
+        }
+
+        failure {
+            notify("FAILURE")
+        }
+
+        always {
+            echo "Pipeline Completed"
+        }
+    }
+}
